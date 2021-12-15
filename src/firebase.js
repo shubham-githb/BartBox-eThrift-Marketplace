@@ -1,8 +1,8 @@
-  
-  import firebase from "firebase/app";
-  import "firebase/auth";
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+// firebase config
+const firebaseConfig = {
     apiKey: "AIzaSyCy4MSq9mkqsO5ByrrKL_lwMkKoR8mZPkk",
     authDomain: "bartthrift-a56f2.firebaseapp.com",
     projectId: "bartthrift-a56f2",
@@ -12,10 +12,8 @@
   };
 
 // Initialize Firebase
- if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-}
+firebase.initializeApp(firebaseConfig);
+
 // export
-// export default firebase;
 export const auth = firebase.auth();
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
