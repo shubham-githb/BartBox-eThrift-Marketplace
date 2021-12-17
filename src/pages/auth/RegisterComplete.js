@@ -8,13 +8,47 @@ const RegisterComplete = ({history}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useState(()=>{
+  useEffect(()=>{
       setEmail(window.localStorage.getItem('emailForRegistration'))
   },[])
 
+  const UserValidation = (email,password) =>{
+    if(!email || !password) {
+      toast.error('Email and password is required')
+      return;
+    }
+    if(password.length < 6){
+      toast.error("Password must be of atleast 6 characters");
+      return;
+    }
+  }
+
 
   const handleSubmit =async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    UserValidation(email,password);
+    try{
+      const result = await auth.signInWithEmailLink(email,window.location.href);
+      if(result.user.emailVerified===true){
+        // remove user email from the local storage
+        window.localStorage.removeItem('emailForRegistration')
+        //get user id token
+        let user = auth.currentUser
+        await user.updatePassword(password);
+        const idTokenResult = await auth.getIdTokenResult();
+        console.log('USER ---->', user);
+        console.log('id token --->', idTokenResult);
+
+        //redux store
+        //redirect
+        // history.push('/')
+      }
+    }
+    // console.log(result)
+    catch(error){
+      toast.error(error.message)
+
+    }
    
   };
 
