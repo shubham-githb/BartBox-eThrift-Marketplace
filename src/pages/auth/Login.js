@@ -6,6 +6,7 @@ import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 // import 'react-toastify/dist/ReactToastify.css'
+import { Link } from "react-router-dom";
 
 const Login = ({history}) => {
 
@@ -13,7 +14,7 @@ const Login = ({history}) => {
   const [email, setEmail] = useState("shubhamaother@gmail.com");
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] =useState(false);
-  let dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSubmit =async (e) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ const Login = ({history}) => {
           email: user.email,
           token : idTokenResult.token,
         }
-      });
+      })
       history.push('/');
     }
     catch(error){
@@ -51,14 +52,11 @@ const Login = ({history}) => {
           payload : {
             email: user.email,
             token : idTokenResult.token,
-          }
+          },
         })
-        .catch((err)=>{
-          console.log(err)
-          
-        })
-
+        history.push("/");
     })
+    .catch((err)=> console.log(err));
   }
 
   const loginForm = () => (
@@ -104,9 +102,9 @@ const Login = ({history}) => {
       <div className='"row'>
         <div className='col-md-6 offset-md-3'>
           {loading ? (
-            <h4>Login</h4>
-          ) : (
             <h4 className='text-danger'>Loading...Pls Wait...</h4>
+          ) : (
+            <h4>Login</h4>
           )}
           {/* <ToastContainer/> */}
           {loginForm()}
