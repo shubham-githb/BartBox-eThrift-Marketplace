@@ -5,6 +5,15 @@ import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import {axios} from "axios"
+
+const createOrUpdateUser = async(authtoken) => {
+  return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`,{},{
+    headers:{
+      authtoken: authtoken,
+    }
+  })
+}
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("gqlreactnode@gmail.com");
@@ -22,6 +31,11 @@ const Login = ({ history }) => {
       // console.log(result);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
+      createOrUpdateUser(idTokenResult.token)
+      .then(
+        (res)=> console.log('CREATE OR UPDATE USER',res)
+      )
+      .catch()
 
       dispatch({
         type: "LOGGED_IN_USER",
