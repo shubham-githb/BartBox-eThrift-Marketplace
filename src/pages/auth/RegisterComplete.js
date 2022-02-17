@@ -2,13 +2,33 @@ import React, { useState,useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {auth} from '../../firebase'
 import {toast} from 'react-toastify'
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { createOrUpdateUser } from "../../functions/auth";
 
 
 // import 'react-toastify/dist/ReactToastify.css'
 
+// const createOrUpdateUser = async (authtoken) => {
+//   return await axios.post(
+//     `${process.env.REACT_APP_API}/create-or-update-user`,
+//     {},
+//     {
+//       headers: {
+//         authtoken,
+//       },
+//     }
+//   );
+// };
+
+
 const RegisterComplete = ({history}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const {user} =useSelector((state)=>({...state}));
+  
+  let dispatch = useDispatch();
 
   useEffect(()=>{
       setEmail(window.localStorage.getItem('emailForRegistration'))
